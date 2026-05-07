@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Javascript</title>
+	<style>
+		body { color: black; background-color: white;  }
+	</style>
+</head>
+<body>
+	<h2> Password checker </h2>
+	<label>Password:</label>
+    <input type=text id='psw'>
+    <button onclick="password_checker()">check password</button><br>
+    <p id="res1"></p>
+    
+    <h2> Security Clearance System </h2>
+    <form>
+        <h3>check</h3>
+        <label>Work Years:</label>
+        <input type='text' id='Wkyear'><br>
+        <label>ID:</label>
+        <input type=text id='id'><br>
+        <label>Years:</label>
+        <input type=text id='year'><br>    
+    </form>
+    <button onclick="Check_Clearance()">Check Clearance</button><br>
+    <p id="res2"></p>
+    
+    <h2> Sign up / Login Simulator </h2>
+      <form>
+        <h3>Registration</h3>
+        <label>Name:</label>
+        <input type='text' id='name'><br>
+        <label>Password:</label>
+        <input type=text id='psw2'>    
+    </form>
+    <button onclick='getpsw()'>register</button><br>
+    <button onclick='signin()'>signin</button><br>
+    <p id="res3"></p>
+
+    <h2> Dark Mode Button </h2>
+    <button id="modeBtn" onclick="changeMode()">change dark mode</button><br>
+
+    <h2> Cyber Threat Detective</h2>
+    <label>URL:</label>
+    <input type='text' id='url'><br>
+    <button onclick="check_url()">Analyze Website</button>
+    <p id="res4"></p>
+
+
+
+
+
+
+
+<script>
+	function password_checker(){
+		let psw_entered = document.getElementById('psw').value;
+		let result1 = '';
+		if(!psw_entered.length >= 12){
+			result1 = 'not long enough<br>'
+		}
+		if(!/[A-Z]/.test(psw_entered)){
+			result1 = 'at least one uppercase<br>'
+		}
+		if(!/[a-z]/.test(psw_entered)){
+			result1 = 'at least one lowercase<br>'
+		}
+		if(!/[,./?''"":;!@#$%^&*\|]/.test(psw_entered)){
+			result1 = 'at least one punctuation<br>'
+		}
+		if(!/[ ]/.test(psw_entered)){
+			result1 = 'no blank space<br>'
+		if(psw_entered.length >= 12 && /[,./?''"":;!@#$%^&*\|]/.test(psw_entered) && /[A-Z]/.test(psw_entered) && /[a-z]/.test(psw_entered)){
+			result1 = 'Strong password<br>'
+		}
+		document.getElementById('res1').innerHTML = result1
+	}
+
+	function Check_Clearance(){
+		let Year = document.getElementById('year').value;
+		let ID = document.getElementById('id').value;
+		let Work_Year = document.getElementById('Wkyear').value;
+		let result2 = '';
+		if(Year >= 25 && Work_Year >= 5 && ID.startWith('SEC')){
+			result2 = 'Level 3'
+		}
+		if(Year >= 21 && Work_Year >= 2 && ID.startWith('EMP')){
+			result2 = 'Level 2'
+		}
+		else if(Year >= 18 && ID.startWith('EMP')){
+			result2 = 'Level 1'
+		}
+		else{
+			result2 = 'no exsit'
+		}
+		document.getElementById('res2').innerHTML = result2
+	}
+
+	let database = [];
+        function getpsw(){
+            let user_entered = document.getElementById('name').value;
+            let psw = document.getElementById('psw2').value;
+            let pair = (user_entered+ ' '+psw).split(' ');
+            let result = '';
+            database.push(pair)
+            result +='registration ok!'
+            document.getElementById('res3').innerHTML = result
+
+        }
+        function signin(){
+            let user_entered = document.getElementById('name').value;
+            let psw = document.getElementById('psw2').value;
+            let result = '';
+            if(database[0] == '' && database[1] == ''){
+            	result ='user not exsit'
+            } 
+            else if(database[0] == user_entered && database[1] == psw){
+                result ='login successfully!'
+                    
+            }
+            else{
+                result ='login info incorrect!'
+                     
+            }
+            document.getElementById('res3').innerHTML = result
+                
+        }
+
+        function changeMode(){
+        	if(document.body.style.backgroundColor == "black"){
+        		document.body.style.backgroundColor = "white";
+        		document.body.style.color = 'black';
+        	}
+        	else{
+        		document.body.style.backgroundColor = "black";
+        		document.body.style.color = 'blue';
+        	}
+        	
+
+        }
+
+        function check_url(){
+        	let url = document.getElementById("url").value;
+        	let result3 = '';
+        	if(!url.startsWith("https://")){
+        		result3 = 'dangerous website'
+        	}
+        	else if(url.startsWith("https://") && 
+       (url.includes("free-money") || url.includes("hack") || url.includes("winner") || url.includes("bitcoin"))){
+        		result3 = 'dangerous website'
+        	}
+        	else if(url.startsWith("https://")){
+        		result3 = 'safe website'
+        	}
+        	else{
+        		result3 = 'unknow'
+        	}
+        	document.getElementById('res4').innerHTML = result3
+		}
+</script>
+</body>
+</html>
